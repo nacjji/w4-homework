@@ -19,4 +19,16 @@ router.post("/", async (req, res) => {
   return res.status(200).json({ message: "댓글을 생성하였습니다." });
 });
 
+router.patch("/", async (req, res) => {
+  const { commentId, userId } = req.query;
+  const { content } = req.body;
+  await Comments.update({ content }, { where: { commentId, userId } });
+  res.status(200).json({ result: "댓글이 수정되었습니다." });
+});
+
+router.delete("/", async (req, res) => {
+  const { commentId, userId } = req.query;
+  await Comments.destroy({ where: { commentId, userId } });
+  res.status(200).json({ result: "댓글이 삭제되었습니다." });
+});
 module.exports = router;

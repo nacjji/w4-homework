@@ -9,10 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // Posts -- Users : 1:N
-      this.hasMany(models.Users);
-      as: "Posts";
-      ForeignKey: "postId";
+      // Users -- Posts : 1:N
+      this.hasMany(models.Posts, {
+        as: "Posts",
+        foreignKey: "userId", // Users 테이블의 userId 가 Posts 테이블에 참조된다.
+      });
+      this.hasMany(models.Comments, {
+        as: "Comments",
+        foreignKey: "userId",
+      });
     }
   }
   Users.init(

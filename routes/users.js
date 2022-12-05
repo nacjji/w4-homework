@@ -3,11 +3,8 @@ const router = express();
 const { Posts, Users } = require("../models");
 
 router.get("/", async (req, res) => {
-  const { userId } = req.query;
-  console.log(await Users.findAll());
-
-  //   const users = await Users.findAll({ where: { userId } });
-  //   return res.status(200).send(users);
+  const users = await Users.findAll();
+  return res.status(200).send(users);
 });
 
 //회원가입

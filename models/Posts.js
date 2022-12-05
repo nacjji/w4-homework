@@ -9,9 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     // Posts -- Users : N:1
     static associate(models) {
-      this.belongsTo(models.Users, {
-        foreignKey: "userId",
-      });
+      this.belongsTo(models.Users, { foreignKey: "userId" });
+      this.hasMany(models.Comments, { foreignKey: "postId" });
     }
   }
   Posts.init(
@@ -25,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
         references: {
-          model: "Users",
-          key: "userId",
+          model: "Users", // Users 테이블에
+          key: "userId", // userId column 과 관계를 맺음
         },
-        onDelete: "CASCADE",
+        // onDelete: "CASCADE",
         allowNull: false,
         unique: true,
       },

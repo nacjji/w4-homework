@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express();
-const { Posts, Users } = require("../models");
+const { Posts, Users, Comments } = require("../models");
 
-// 작성자로 조회
-router.get("/:userId", async (req, res) => {
+// 게시글 상세 조회 // 게시글에 달린 댓글들도 보여주기
+router.get("/:postId", async (req, res) => {
   // join Posts -- Users
-  const { userId } = req.params;
-  const post = await Posts.findAll({ where: { userId } });
-  return res.send(post);
+  const { postId } = req.params;
+  const comments = await Comments.findAll({ where: { postId } });
+  const post = await Posts.findAll({ where: { postId } });
+  console.log(comments);
+  return res.status(200).json({ post, comments });
 });
 
 // 게시물 전체 조회
@@ -18,10 +20,10 @@ router.get("/", async (req, res) => {
 
 // 게시글 생성
 router.post("/", async (req, res) => {
-  const { userId, nickname, title, content } = req.body;
-  const post = Posts.create({
+  const { userId, title, content } = req.body;
+  console.log(1231212313213);
+  Posts.create({
     userId,
-    nickname,
     title,
     content,
   });
@@ -30,11 +32,10 @@ router.post("/", async (req, res) => {
 
 // 게시글 수정
 router.patch("/", async (req, res) => {
+  // postId 와 userId 를 동시에 가져와서 한번에 작성자 여부를 판단할 수 있음
   const { postId, userId } = req.query;
   const { content } = req.body;
-  //   console.log(`postId : ${postId}, userId :${userId}`);
   await Posts.update({ content }, { where: { postId, userId } });
-  //   await Posts.updateOne({ postId, userId }, { content });
   res.status(200).json({ result: "게시물이 수정되었습니다." });
 });
 
