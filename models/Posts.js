@@ -7,8 +7,11 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    // Posts -- Users : N:1
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Users, {
+        foreignKey: "userId",
+      });
     }
   }
   Posts.init(
@@ -22,16 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
         references: {
-          model: "Posts",
+          model: "Users",
           key: "userId",
         },
-      },
-      nickname: {
-        type: DataTypes.STRING,
-        references: {
-          model: "Posts",
-          key: "nickname",
-        },
+        onDelete: "CASCADE",
+        allowNull: false,
+        unique: true,
       },
       title: {
         type: DataTypes.STRING,

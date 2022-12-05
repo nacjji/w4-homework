@@ -11,9 +11,13 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-      },
-      nickname: {
-        type: Sequelize.STRING,
+        references: {
+          model: "Users",
+          key: "userId",
+        },
+        onDelete: "CASCADE",
+        allowNull: false,
+        unique: true,
       },
       title: {
         type: Sequelize.STRING,
