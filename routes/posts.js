@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express();
-const { Posts, Users, Comments } = require("../models");
+const { Posts, Users, Comments, Likes } = require("../models");
 
 // 게시글 상세 조회 // 게시글에 달린 댓글들도 보여주기
 router.get("/:postId", async (req, res) => {
   // join Posts -- Users
   const { postId } = req.params;
   const comments = await Comments.findAll({ where: { postId } });
+  const likes = await Likes.findAll({ where: { postId } });
   const post = await Posts.findAll({ where: { postId } });
-  console.log(comments);
-  return res.status(200).json({ post, comments });
+  console.log(post);
+  return res.status(200).json({ post, comments, likes });
 });
 
 // 게시물 전체 조회

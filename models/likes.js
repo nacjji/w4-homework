@@ -1,49 +1,41 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Posts extends Model {
+  class Likes extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    // Posts -- Users : N:1
     static associate(models) {
       this.belongsTo(models.Users, { foreignKey: "userId" });
-      this.hasMany(models.Comments, { foreignKey: "postId" });
-      this.belongsTo(models.Likes, { foreignKey: "likesId" });
+      this.belongsTo(models.Posts, { foreignKey: "postId" });
     }
   }
-  Posts.init(
+  Likes.init(
     {
-      postId: {
+      likesId: {
+        type: DataTypes.TINYINT(0),
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      likesId: {
-        type: DataTypes.TINYINT(0),
-        references: {
-          model: "Likes", // Likes 테이블에
-          key: "likesId", // likesId column 과 관계를 맺음
-        },
       },
       userId: {
         type: DataTypes.INTEGER,
-        references: {
-          model: "Users", // Users 테이블에
-          key: "userId", // userId column 과 관계를 맺음
-        },
-        // onDelete: "CASCADE",
         allowNull: false,
-        unique: true,
+        references: {
+          model: "Users",
+          key: "userId",
+        },
+        onDelete: "CASECADE",
       },
-      title: {
-        type: DataTypes.STRING,
-      },
-      content: {
-        type: DataTypes.STRING,
+      postId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "userId",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -56,8 +48,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Posts",
+      modelName: "Likes",
     }
   );
-  return Posts;
+  return Likes;
 };
