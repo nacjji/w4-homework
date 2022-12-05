@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "skwldnjs1!",
+    "database": "practice",
+    "host": "w4-project.cta1pnnjerr0.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "skwldnjs1!",
+    "database": "database_test",
+    "host": "w4-project.cta1pnnjerr0.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "skwldnjs1!",
+    "database": "database_production",
+    "host": "w4-project.cta1pnnjerr0.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
+}
