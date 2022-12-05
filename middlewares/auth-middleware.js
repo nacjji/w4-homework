@@ -20,9 +20,3 @@ module.exports = (req, res, next) => {
     res.status(401).send({ errorMessage: "로그인 후 이용 가능한 기능입니다." });
   }
 };
-
-// npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
-
-// title
-// content
-//

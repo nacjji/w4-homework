@@ -47,3 +47,6 @@ router.delete("/", async (req, res) => {
 });
 
 module.exports = router;
+
+// 게시물 댓글 완료, 내일 좋아요 기능 하자
+// jwt 공부하고
