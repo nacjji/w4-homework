@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Users, { foreignKey: "userId" });
-      this.belongsTo(models.Posts, { foreignKey: "postId" });
+      this.belongsTo(models.Posts, { foreignKey: "commentId" });
     }
   }
   Comments.init(
@@ -22,10 +22,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       userId: {
         type: DataTypes.INTEGER,
+        references: { model: "Users", key: "userId" },
+        onDelete: "CASCADE",
       },
       postId: {
         type: DataTypes.INTEGER,
+        references: { model: "Posts", key: "postId" },
+        onDelete: "CASCADE",
       },
+
       content: {
         type: DataTypes.STRING,
       },

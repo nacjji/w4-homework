@@ -9,11 +9,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      likesId: {
-        type: Sequelize.TINYINT(0),
-      },
+
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "userId",
+        },
+        onDelete: "CASCADE",
       },
       title: {
         type: Sequelize.STRING,

@@ -3,35 +3,31 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Likes", {
-      likesId: {
-        type: Sequelize.DataTypes.TINYINT(0),
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      },
-      userId: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Users",
-          key: "userId",
-        },
+        type: Sequelize.INTEGER,
       },
       postId: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Users",
-          key: "userId",
-        },
+        type: Sequelize.INTEGER,
+        references: { model: "Posts", key: "postId" },
+        onDelete: "CASCADE",
       },
+
+      userId: {
+        type: Sequelize.INTEGER,
+        references: { model: "Users", key: "userId" },
+        onDelete: "CASCADE",
+      },
+
       createdAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE,
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DataTypes.DATE,
+        type: Sequelize.DATE,
       },
     });
   },

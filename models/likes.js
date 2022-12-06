@@ -14,29 +14,24 @@ module.exports = (sequelize, DataTypes) => {
   }
   Likes.init(
     {
-      likesId: {
-        type: DataTypes.TINYINT(0),
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      },
-      userId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Users",
-          key: "userId",
-        },
-        onDelete: "CASECADE",
       },
       postId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Users",
-          key: "userId",
-        },
+        references: { model: "Posts", key: "postId" },
+        onDelete: "CASCADE",
       },
+
+      userId: {
+        type: DataTypes.INTEGER,
+        references: { model: "Users", key: "userId" },
+        onDelete: "CASCADE",
+      },
+
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

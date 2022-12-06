@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Users, { foreignKey: "userId" });
       this.hasMany(models.Comments, { foreignKey: "postId" });
-      this.belongsTo(models.Likes, { foreignKey: "likesId" });
+      this.hasMany(models.Likes, { foreignKey: "postId" });
     }
   }
   Posts.init(
@@ -22,23 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      likesId: {
-        type: DataTypes.TINYINT(0),
-        references: {
-          model: "Likes", // Likes 테이블에
-          key: "likesId", // likesId column 과 관계를 맺음
-        },
-      },
       userId: {
         type: DataTypes.INTEGER,
         references: {
           model: "Users", // Users 테이블에
           key: "userId", // userId column 과 관계를 맺음
         },
-        // onDelete: "CASCADE",
+        onDelete: "CASCADE",
         allowNull: false,
         unique: true,
       },
+
       title: {
         type: DataTypes.STRING,
       },

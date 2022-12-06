@@ -7,10 +7,10 @@ router.get("/:postId", async (req, res) => {
   // join Posts -- Users
   const { postId } = req.params;
   const comments = await Comments.findAll({ where: { postId } });
-  const likes = await Likes.findAll({ where: { postId } });
   const post = await Posts.findAll({ where: { postId } });
+  const like = await Likes.findAll({ where: { postId } });
   console.log(post);
-  return res.status(200).json({ post, comments, likes });
+  return res.status(200).json({ post, comments, like: like.length });
 });
 
 // 게시물 전체 조회
@@ -22,7 +22,6 @@ router.get("/", async (req, res) => {
 // 게시글 생성
 router.post("/", async (req, res) => {
   const { userId, title, content } = req.body;
-  console.log(1231212313213);
   Posts.create({
     userId,
     title,
@@ -43,6 +42,7 @@ router.patch("/", async (req, res) => {
 // 게시글 삭제
 router.delete("/", async (req, res) => {
   const { postId, userId } = req.query;
+  console.log(postId, userId);
   await Posts.destroy({ where: { postId, userId } });
   res.status(200).json({ result: "게시글이 삭제되었습니다." });
 });
