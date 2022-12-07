@@ -17,8 +17,10 @@ router.post("/", async (req, res) => {
     if (!user || password !== user.password) {
       return res.status(412).send({ errorMessage: "아이디 또는  패스워드를 확인해주세요." });
     }
+
     const token = jwt.sign({ email: user.email, password: user.password, userId: user.userId, nickname: user.nickname }, SECRET_KEY);
-    if (res.cookie("token", token)) {
+    res.cookie("token", token);
+    if (req.cookies.token) {
       return res.status(400).json({ errorMessage: "이미 로그인된 계정입니다." });
     }
     return res.status(200).json({ token });

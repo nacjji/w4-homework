@@ -15,11 +15,10 @@ sequelize
     console.log("sequelize 연결 실패", err);
   });
 
+// bodyparser middleware
 app.use(express.json());
 
-const router = express.Router();
-
-app.use("/api", express.urlencoded({ extended: false }), router);
+app.use("/api", express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
 

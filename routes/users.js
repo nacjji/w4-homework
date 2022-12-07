@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express();
-const { Posts, Users } = require("../models");
+const { Users } = require("../models");
 
 // 전체회원 조회
 router.get("/", async (req, res) => {

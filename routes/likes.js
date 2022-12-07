@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express();
-const { Likes, Users, Posts } = require("../models");
-const jwt = require("jsonwebtoken");
+const { Likes } = require("../models");
 const authMiddleWare = require("../middlewares/auth-middleware");
 
 router.get("/", async (req, res) => {
@@ -11,15 +10,16 @@ router.get("/", async (req, res) => {
 
 // 게시글을 params 로 받아
 router.put("/:postId", authMiddleWare, async (req, res) => {
-  const decodeUserId = jwt.decode(req.cookies.token);
+  const { userId } = res.locals.user;
   try {
     const { postId } = req.params;
-    const like = await Likes.findAll({ where: { postId, userId: decodeUserId.userId } });
+    const like = await Likes.findAll({ where: { postId, userId } });
+    console.log(like);
     if (!like.length) {
-      await Likes.create({ postId, userId: decodeUserId.userId });
+      await Likes.create({ postId, userId });
       res.send("좋아요!");
     } else {
-      await Likes.destroy({ where: { postId, userId: decodeUserId.userId } });
+      await Likes.destroy({ where: { postId, userId } });
       return res.send("좋아요 취소");
     }
   } catch (err) {
