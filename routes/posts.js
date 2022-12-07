@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express();
-const authMiddleWare = require("../middlewares/auth-middleware");
 const { Posts, Users, Comments, Likes } = require("../models");
 const jwt = require("jsonwebtoken");
+const authMiddleWare = require("../middlewares/auth-middleware");
 
 // 작성자로 조회
 // router.get("/likedpost", async (req, res) => {
@@ -15,6 +15,7 @@ const jwt = require("jsonwebtoken");
 //
 router.get("/likedpost", async (req, res) => {
   const userId = jwt.decode(req.cookies.token);
+
   const likedPost = await Likes.findAll();
   // console.log(likedPost[0].postId);
   // const post = await Posts.findAll({ where: { postId: likedPost[0].postId } });
@@ -45,13 +46,8 @@ router.get("/", async (req, res) => {
 // 게시글 생성
 router.post("/", authMiddleWare, async (req, res) => {
   const decode = jwt.decode(req.cookies.token);
-  decode.nickname;
   const { title, content } = req.body;
-  Posts.create({
-    userId: decode.userId,
-    title,
-    content,
-  });
+  await Posts.create({ userId: decode.userId, title, content });
   return res.status(200).json({ message: "게시물을 생성하였습니다." });
 });
 

@@ -13,9 +13,10 @@ router.get("/", async (req, res) => {
 });
 
 // 댓글 생성
-router.post("/", authMiddleWare, async (req, res) => {
+router.post("/:postId", authMiddleWare, async (req, res) => {
   const decode = jwt.decode(req.cookies.token);
-  const { postId, content } = req.body;
+  const { postId } = req.params;
+  const { content } = req.body;
   if (!content) {
     return res.status(412).json({ errorMessage: "댓글 내용을 입력해 주세요" });
   }
@@ -45,7 +46,7 @@ router.patch("/:commentId", authMiddleWare, async (req, res) => {
 });
 
 // 댓글 삭제
-router.delete("/:commentId", async (req, res) => {
+router.delete("/:commentId", authMiddleWare, async (req, res) => {
   const { commentId } = req.params;
   const decode = jwt.decode(req.cookies.token);
   const comment = await Comments.findAll({ where: { commentId } });

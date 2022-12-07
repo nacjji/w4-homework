@@ -6,7 +6,6 @@ module.exports = (req, res, next) => {
   try {
     const { userId } = jwt.verify(req.cookies.token, SECRET_KEY);
     Users.findByPk(userId).then((user) => {
-      console.log(user);
       res.locals.user = user;
       next();
     });
