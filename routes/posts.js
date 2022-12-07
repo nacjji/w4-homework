@@ -12,14 +12,13 @@ const authMiddleWare = require("../middlewares/auth-middleware");
 //   return res.status(200).json({ post });
 // });
 
-//
+// 좋아요한 글만 보여주기
 router.get("/likedpost", async (req, res) => {
-  const userId = jwt.decode(req.cookies.token);
+  const decodeUserId = jwt.decode(req.cookies.token);
+  console.log(decodeUserId);
+  const likedPost = await Likes.findAll({ include: { model: Posts }, required: true });
+  // const likedPost = await Likes.findAll({ where: { userId: decodeUserId.userId } });
 
-  const likedPost = await Likes.findAll();
-  // console.log(likedPost[0].postId);
-  // const post = await Posts.findAll({ where: { postId: likedPost[0].postId } });
-  // console.log(post);
   return res.status(200).json({ likedPost });
 });
 
@@ -38,8 +37,7 @@ router.get("/:postId", async (req, res) => {
 
 // 게시물 전체 조회
 router.get("/", async (req, res) => {
-  const decode = jwt.decode(req.cookies.token);
-  const posts = await Posts.findAll();
+  const posts = await Posts.findAll({ include: [{ model: Likes }, { model: Comments }] });
   return res.send(posts);
 });
 
@@ -52,11 +50,11 @@ router.post("/", authMiddleWare, async (req, res) => {
 });
 
 // 게시글 수정
-router.patch("/", authMiddleWare, async (req, res) => {
-  // postId 와 userId 를 동시에 가져와서 한번에 작성자 여부를 판단할 수 있음
-  const { postId, userId } = req.query;
-  const { content } = req.body;
-  await Posts.update({ content }, { where: { postId, userId } });
+router.patch("/:postId", authMiddleWare, async (req, res) => {
+  const decodeUserId = jwt.decode(req.cookies.token);
+  const { postId } = req.params;
+  const { title, content } = req.body;
+  await Posts.update({ title, content }, { where: { postId } });
   res.status(200).json({ result: "게시물이 수정되었습니다." });
 });
 

@@ -22,7 +22,6 @@ router.post("/:postId", authMiddleWare, async (req, res) => {
   }
   Comments.create({
     userId: decode.userId,
-
     postId,
     content,
   });
