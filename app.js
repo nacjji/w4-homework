@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const indexRouter = require("./routes/index");
 const { sequelize } = require("./models");
+const cookieParser = require("cookie-parser");
+
+app.use(cookieParser());
 
 sequelize
   .sync({ force: false })

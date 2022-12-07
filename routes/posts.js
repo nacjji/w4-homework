@@ -1,6 +1,26 @@
 const express = require("express");
 const router = express();
+const authMiddleWare = require("../middlewares/auth-middleware");
 const { Posts, Users, Comments, Likes } = require("../models");
+const jwt = require("jsonwebtoken");
+
+// 작성자로 조회
+// router.get("/likedpost", async (req, res) => {
+//   const userId = jwt.decode(req.cookies.token);
+//   console.log(userId);
+//   const post = await Posts.findAll({ where: { userId: userId.userId } });
+//   return res.status(200).json({ post });
+// });
+
+//
+router.get("/likedpost", async (req, res) => {
+  const userId = jwt.decode(req.cookies.token);
+  const likedPost = await Likes.findAll();
+  // console.log(likedPost[0].postId);
+  // const post = await Posts.findAll({ where: { postId: likedPost[0].postId } });
+  // console.log(post);
+  return res.status(200).json({ likedPost });
+});
 
 // 게시글 상세 조회 // 게시글에 달린 댓글들도 보여주기
 router.get("/:postId", async (req, res) => {
@@ -9,21 +29,26 @@ router.get("/:postId", async (req, res) => {
   const comments = await Comments.findAll({ where: { postId } });
   const post = await Posts.findAll({ where: { postId } });
   const like = await Likes.findAll({ where: { postId } });
-  console.log(post);
-  return res.status(200).json({ post, comments, like: like.length });
+  const nick = await Users.findAll({ where: { userId: post[0].userId } });
+  return res.status(200).json({ post, 작성자: nick[0].nickname, comments, like: like.length });
 });
+
+// 좋아요한 글만 조회
 
 // 게시물 전체 조회
 router.get("/", async (req, res) => {
+  const decode = jwt.decode(req.cookies.token);
   const posts = await Posts.findAll();
   return res.send(posts);
 });
 
 // 게시글 생성
-router.post("/", async (req, res) => {
-  const { userId, title, content } = req.body;
+router.post("/", authMiddleWare, async (req, res) => {
+  const decode = jwt.decode(req.cookies.token);
+  decode.nickname;
+  const { title, content } = req.body;
   Posts.create({
-    userId,
+    userId: decode.userId,
     title,
     content,
   });
@@ -31,7 +56,7 @@ router.post("/", async (req, res) => {
 });
 
 // 게시글 수정
-router.patch("/", async (req, res) => {
+router.patch("/", authMiddleWare, async (req, res) => {
   // postId 와 userId 를 동시에 가져와서 한번에 작성자 여부를 판단할 수 있음
   const { postId, userId } = req.query;
   const { content } = req.body;
@@ -40,7 +65,7 @@ router.patch("/", async (req, res) => {
 });
 
 // 게시글 삭제
-router.delete("/", async (req, res) => {
+router.delete("/", authMiddleWare, async (req, res) => {
   const { postId, userId } = req.query;
   console.log(postId, userId);
   await Posts.destroy({ where: { postId, userId } });
