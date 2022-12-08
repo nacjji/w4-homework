@@ -34,7 +34,7 @@ router.post("/:postId", authMiddleWare, async (req, res) => {
 });
 
 // 댓글 수정
-router.patch("/:commentId", authMiddleWare, async (req, res) => {
+router.put("/:commentId", authMiddleWare, async (req, res) => {
   try {
     const { userId } = res.locals.user;
     const { commentId } = req.params;

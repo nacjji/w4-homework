@@ -22,6 +22,6 @@ app.use("/api", express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
 
-app.listen(5000, () => {
-  console.log(5000, "has opened");
+app.listen(3000, () => {
+  console.log(3000, "has opened");
 });

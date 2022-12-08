@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 });
 
 // 게시글을 params 로 받아
-router.put("/:postId", authMiddleWare, async (req, res) => {
+router.put("/:postId//like", authMiddleWare, async (req, res) => {
   const { userId } = res.locals.user;
   try {
     const { postId } = req.params;
@@ -17,10 +17,10 @@ router.put("/:postId", authMiddleWare, async (req, res) => {
     console.log(like);
     if (!like.length) {
       await Likes.create({ postId, userId });
-      res.send("좋아요!");
+      res.send("게시글에 좋아요를 등록하였습니다.");
     } else {
       await Likes.destroy({ where: { postId, userId } });
-      return res.send("좋아요 취소");
+      return res.send("게시글에 좋아요를 취소하였습니다.");
     }
   } catch (err) {
     res.status(400).json({ errorMessage: "게시물이 존재하지 않습니다." });

@@ -3,16 +3,10 @@ const router = express();
 const { Posts, Comments, Likes } = require("../models");
 const authMiddleWare = require("../middlewares/auth-middleware");
 const sequelize = require("sequelize");
-// 작성자로 조회
-// router.get("/likedpost", async (req, res) => {
-//   const userId = jwt.decode(req.cookies.token);
-//   console.log(userId);
-//   const post = await Posts.findAll({ where: { userId: userId.userId } });
-//   return res.status(200).json({ post });
-// });
+
 
 // 좋아요한 글만 보여주기
-router.get("/likedpost", async (req, res) => {
+router.get("/like", async (req, res) => {
   try {
     const likedPost = await Likes.findAll({ include: { model: Posts }, required: true });
 
@@ -39,9 +33,6 @@ router.get("/:postId", async (req, res) => {
   }
 });
 
-// ASC 정렬
-// DESC 역순
-
 // 게시물 전체 조회, 좋아요 많은 순으로 정렬
 router.get("/", async (req, res) => {
   try {
@@ -64,7 +55,6 @@ router.get("/", async (req, res) => {
     });
     return res.send(likesCount);
   } catch (errorMessage) {
-    console.log(errorMessage);
     res.status(400).json({ errorMessage: "게시글 조회에 실패하였습니다." });
   }
 });
@@ -87,7 +77,7 @@ router.post("/", authMiddleWare, async (req, res) => {
 });
 
 // 게시글 수정
-router.patch("/:postId", authMiddleWare, async (req, res) => {
+router.put("/:postId", authMiddleWare, async (req, res) => {
   try {
     const { userId } = res.locals.user;
     const { postId } = req.params;

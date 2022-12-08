@@ -1,7 +1,6 @@
 {
   "name": "1203-session",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app"
@@ -21,5 +20,14 @@
   },
   "devDependencies": {
     "sequelize-cli": "^6.5.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nacjji/w4-homework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nacjji/w4-homework/issues"
+  },
+  "homepage": "https://github.com/nacjji/w4-homework#readme",
+  "description": ""
 }
