@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
 });
 
 // 게시글을 params 로 받아
-router.put("/:postId//like", authMiddleWare, async (req, res) => {
+router.put("/:postId/like", authMiddleWare, async (req, res) => {
   const { userId } = res.locals.user;
   try {
     const { postId } = req.params;
