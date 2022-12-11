@@ -16,7 +16,6 @@ router.get("/", async (req, res) => {
 router.post("/:postId", authMiddleWare, async (req, res) => {
   try {
     const { userId } = res.locals.user;
-    console.log(userId);
     const { postId } = req.params;
     const { content } = req.body;
     if (!content) {
