@@ -3,7 +3,7 @@
     "username": "root",
     "password": "skwldnjs1!",
     "database": "practice",
-    "host": "w4-project.cta1pnnjerr0.ap-northeast-2.rds.amazonaws.com",
+    "host": "express-db2.cta1pnnjerr0.ap-northeast-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {

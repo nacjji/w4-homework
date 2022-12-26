@@ -1,16 +1,17 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express")
+const router = express.Router()
 
-const Signup = require("./signup");
-const Login = require("./login");
-const Posts = require("./posts");
-const Comments = require("./comments");
-const Likes = require("./likes");
+const Signup = require("./signup")
+const Login = require("./login")
+const Posts = require("./posts")
+const Comments = require("./comments")
+const Likes = require("./likes")
 
-router.use("/login", Login);
-router.use("/signup", Signup);
-router.use("/posts", Posts);
-router.use("/comments", Comments);
-router.use("/likes", Likes);
+router.use("/login", Login)
 
-module.exports = router;
+router.use("/signup", Signup)
+router.use("/posts", Posts)
+router.use("/comments", Comments)
+router.use("/likes", Likes)
+
+module.exports = router
